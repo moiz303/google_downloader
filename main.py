@@ -35,4 +35,4 @@ def chromer(login: str, wordpass: str):
 
 
 path_to_chrome_driver = 'apath/awebdriver.exe'
-chromer('misha.izraylit@gmail.com', '*4940993Misha')
+
