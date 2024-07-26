@@ -31,7 +31,11 @@ def chromer(login: str, wordpass: str):
 
     nextBtn = driver.find_element(value='passwordNext')
     nextBtn.click()
-    time.sleep(20)
+    time.sleep(5)
+
+    nextBtn = driver.find_element(by='href', value='https://photos.google.com/?authuser=0')
+    nextBtn.click()
+    time.sleep(10)
 
 
 path_to_chrome_driver = 'apath/awebdriver.exe'
