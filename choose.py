@@ -32,11 +32,15 @@ def get_bits(mid, all_pixes) -> str:
     return ''.join(bits)
 
 
-if __name__ == '__main__':
-    hash1 = make_hash("image_1.jpg")
-    hash2 = make_hash("image_2.jpg")
+def percenting(im1: str, im2: str):
+    hash1 = make_hash(im1)
+    hash2 = make_hash(im2)
     cou = 0
     for i in range(100):
         if hash1[i] == hash2[i]:
             cou += 1
     print(str(cou) + '%')
+
+
+if __name__ == '__main__':
+    percenting("image_1.jpg", "image_2.jpg")
