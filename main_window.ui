@@ -42,7 +42,7 @@
      <number>0</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="gogle">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -55,7 +55,7 @@
      <string>Создать экспорт из Google Photo</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="clear">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -66,6 +66,19 @@
     </property>
     <property name="text">
      <string>Удалить дубликаты из экспорта</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>360</y>
+      <width>761</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

@@ -58,4 +58,3 @@ def chromer(login: str, wordpass: str):
 
 if __name__ == '__main__':
     path_to_chrome_driver = 'apath/awebdriver.exe'
-
