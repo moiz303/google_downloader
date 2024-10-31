@@ -3,8 +3,6 @@ import time
 import fake_useragent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 
@@ -48,8 +46,7 @@ def chromer(login: str, wordpass: str):
     select = driver.find_element(By.XPATH, value='/html/body/c-wiz/div/div[2]/div[2]/c-wiz/div/div/div/div/div[2]/c-wiz[2]/div/div[3]/div/div[1]/div/div[4]/div[1]/div')
     select.click()
     se = driver.find_element(By.XPATH, value='/html/body/c-wiz/div/div[2]/div[2]/c-wiz/div/div/div/div/div[2]/c-wiz[2]/div/div[3]/div/div[1]/div/div[4]/div[1]/div/div[1]/div[1]/div[5]')
-    ActionChains(driver).move_to_element(se)
-    se.click()
+    driver.execute_script("arguments[0].click();", se)
     time.sleep(3)
 
     nextBtn = driver.find_element(by='xpath', value="//*[text() = 'Создать экспорт']")
