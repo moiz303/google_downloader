@@ -39,8 +39,9 @@ def percenting(im1: str, im2: str):
     for i in range(100):
         if hash1[i] == hash2[i]:
             cou += 1
-    print(str(cou) + '%')
+    return cou
 
 
 if __name__ == '__main__':
-    percenting("image_1.jpg", "image_2.jpg")
+    print(percenting("image_1.jpg", "image_3.jpg"),  '\n' +
+          'Дубликаты' if percenting("image_1.jpg", "image_3.jpg") > 87 else '')

@@ -3,7 +3,8 @@ import time
 import fake_useragent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 
@@ -44,8 +45,11 @@ def chromer(login: str, wordpass: str):
     nextBtn.click()
     time.sleep(3)
 
-    select = Select(driver.find_element(By.CSS_SELECTOR, value="[aria-label='File size']"))
-    select.select_by_visible_text("50 ГБ")
+    select = driver.find_element(By.XPATH, value='/html/body/c-wiz/div/div[2]/div[2]/c-wiz/div/div/div/div/div[2]/c-wiz[2]/div/div[3]/div/div[1]/div/div[4]/div[1]/div')
+    select.click()
+    se = driver.find_element(By.XPATH, value='/html/body/c-wiz/div/div[2]/div[2]/c-wiz/div/div/div/div/div[2]/c-wiz[2]/div/div[3]/div/div[1]/div/div[4]/div[1]/div/div[1]/div[1]/div[5]')
+    ActionChains(driver).move_to_element(se)
+    se.click()
     time.sleep(3)
 
     nextBtn = driver.find_element(by='xpath', value="//*[text() = 'Создать экспорт']")
@@ -53,8 +57,9 @@ def chromer(login: str, wordpass: str):
     time.sleep(3)
 
     driver.delete_all_cookies()
-    driver.quit()
+    driver.quit()  # Обязательно удаляем все куки-файлы, тк я не храню никакие данные
 
 
 if __name__ == '__main__':
     path_to_chrome_driver = 'apath/awebdriver.exe'
+    chromer(input(), input())
