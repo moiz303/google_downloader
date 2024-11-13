@@ -1,8 +1,11 @@
 import photo_bot
+import db_session
 from choose import percenting
 
 import sys
 import sqlalchemy
+import json
+import os
 
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
@@ -26,6 +29,7 @@ class Main(QMainWindow):
         self.clear.clicked.connect(self.hide)
 
 
+
 class DoPhotoBot(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -37,6 +41,7 @@ class DoPhotoBot(QMainWindow):
 
     def go_bot(self):
         photo_bot.chromer(self.mail.text(), self.password.text())
+        return
 
 
 class ClearPhotos(QMainWindow):
@@ -49,21 +54,42 @@ class ClearPhotos(QMainWindow):
         self.confirm.clicked.connect(self.cleanning)
 
     def cleanning(self):
-        a = self.path.text()
+        a = os.listdir(self.path.text())
+        db_sess = db_session.create_session()  # Подключаемся к базе данных
         counter = 0
         while counter <= len(a) - 3:
             photo1, jason1 = a[counter], a[counter + 1]
             photo2, jason2 = a[counter + 2], a[counter + 3]
-            if percenting(photo1, photo2) > 88:
-                del a[counter:counter + 1]
-            else:
-                with open(a[counter + 1], 'r', encoding='utf8') as file:
-                    jason = file.read()
-                    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-                    date = sqlalchemy.Column(sqlalchemy.DateTime, nullable=True)
-                    device = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
+            if photo1[-4:] != '.jpg':  # Если объект - не фотография, то пропускаем его и его json
                 counter += 2
+
+            elif percenting(photo1, photo2) > 88:  # Иначе сравниваем - если сходство более 88%, то удаляем фото и json
+                os.remove(os.path.abspath(photo1))
+
+            else:  # Если всё хорошо, то записываем в БДшку информацию про фотографию
+                with open(a[counter + 1], 'r', encoding='utf8') as file:
+                    jason = json.load(file)
+                    data = Data(
+                        description=jason["description"],
+                        date=jason["photoTakenTime"]["formatted"],
+                        url=jason["url"],
+                        device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
+                    )
+                    db_sess.add(data)
+                    db_sess.commit()
+                counter += 2
+            os.remove(os.path.abspath(jason1))
+
+
+class Data(sqlalchemy.ext.declarative.declarative_base()):
+    __tablename__ = 'Data'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, autoincrement=True)
+    description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    date = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    url = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    device = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
 
 def except_hook(cls, exception, traceback):
