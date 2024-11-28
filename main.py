@@ -53,17 +53,22 @@ class ClearPhotos(QMainWindow):
 
         self.confirm.clicked.connect(self.cleanning)
 
+    def fast_clean(self, direct):
+        for i in os.listdir(direct):
+            if i.find('-изменённый'):
+                os.remove(os.path.abspath(i))
+
     def cleanning(self):
         full_path = self.path.text()
         albums = os.listdir(full_path)
-        #db_sess = db_session.create_session()  # Подключаемся к базе данных
+        # db_sess = db_session.create_session()  # Подключаемся к базе данных
         counter = 0
         for i in albums:
             if i.startswith('Photos from'):
                 path = full_path + f'\\{i}'
-                os.chdir(path)
+                os.chdir(path)  # Переходим в нужную директорию
                 a = os.listdir(path)
-                print(a)
+                self.fast_clean(path)
                 while counter <= len(a) - 3:
                     photo1, jason1 = a[counter], a[counter + 1]
                     photo2, jason2 = a[counter + 2], a[counter + 3]
