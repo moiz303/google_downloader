@@ -16,8 +16,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>110</y>
+     <x>140</x>
+     <y>90</y>
      <width>441</width>
      <height>31</height>
     </rect>
@@ -32,8 +32,8 @@
   <widget class="QLineEdit" name="path">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>180</y>
+     <x>120</x>
+     <y>160</y>
      <width>491</width>
      <height>31</height>
     </rect>
@@ -42,10 +42,10 @@
   <widget class="QLabel" name="logo">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>340</y>
-     <width>641</width>
-     <height>101</height>
+     <x>60</x>
+     <y>290</y>
+     <width>661</width>
+     <height>141</height>
     </rect>
    </property>
    <property name="text">
@@ -55,8 +55,8 @@
   <widget class="QPushButton" name="confirm">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>260</y>
+     <x>560</x>
+     <y>220</y>
      <width>131</width>
      <height>41</height>
     </rect>

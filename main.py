@@ -54,38 +54,47 @@ class ClearPhotos(QMainWindow):
         self.confirm.clicked.connect(self.cleanning)
 
     def cleanning(self):
-        a = os.listdir(self.path.text())
-        db_sess = db_session.create_session()  # Подключаемся к базе данных
+        full_path = self.path.text()
+        albums = os.listdir(full_path)
+        #db_sess = db_session.create_session()  # Подключаемся к базе данных
         counter = 0
-        while counter <= len(a) - 3:
-            photo1, jason1 = a[counter], a[counter + 1]
-            photo2, jason2 = a[counter + 2], a[counter + 3]
+        for i in albums:
+            if i.startswith('Photos from'):
+                path = full_path + f'\\{i}'
+                os.chdir(path)
+                a = os.listdir(path)
+                print(a)
+                while counter <= len(a) - 3:
+                    photo1, jason1 = a[counter], a[counter + 1]
+                    photo2, jason2 = a[counter + 2], a[counter + 3]
 
-            if photo1[-4:] != '.jpg':  # Если объект - не фотография, то пропускаем его и его json
-                counter += 2
+                    # Если объект - не фотография, то пропускаем его и его json
+                    if photo1[-4:] != '.jpg':
+                        counter += 2
 
-            elif percenting(photo1, photo2) > 88:  # Иначе сравниваем - если сходство более 88%, то удаляем фото и json
-                os.remove(os.path.abspath(photo1))
+                    # Иначе сравниваем - если сходство более 88%, то удаляем фото и json
+                    elif percenting(photo1, photo2) > 88:
+                        os.remove(os.path.abspath(photo1))
 
-            else:  # Если всё хорошо, то записываем в БДшку информацию про фотографию
-                with open(a[counter + 1], 'r', encoding='utf8') as file:
-                    jason = json.load(file)
-                    data = Data(
-                        description=jason["description"],
-                        date=jason["photoTakenTime"]["formatted"],
-                        url=jason["url"],
-                        device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
-                    )
-                    db_sess.add(data)
-                    db_sess.commit()
-                counter += 2
-            os.remove(os.path.abspath(jason1))
+                    else:  # Если всё хорошо, то записываем в БДшку информацию про фотографию
+                        """with open(a[counter + 1], 'r', encoding='utf8') as file:
+                            jason = json.load(file)
+                            data = Data(
+                                description=jason["description"],
+                                date=jason["photoTakenTime"]["formatted"],
+                                url=jason["url"],
+                                device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
+                            )
+                            db_sess.add(data)
+                            db_sess.commit()"""
+                        counter += 2
+                    os.remove(os.path.abspath(jason1))
 
 
-class Data(sqlalchemy.ext.declarative.declarative_base()):
+class Data(db_session.SqlAlchemyBase):
     __tablename__ = 'Data'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, autoincrement=True)
+    id = sqlalchemy.Column(sqlalchemy.Integer, autoincrement=True, primary_key=True)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     date = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     url = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)

@@ -4,20 +4,20 @@ from PIL import Image
 def make_hash(im_name):
         img = Image.open(im_name)
 
-        img2 = img.resize((10, 10))
+        img2 = img.resize((100, 100))
         pixels = img2.load()
         img.close()
 
         all_pixes = get_grey(pixels)
-        mid = sum(all_pixes) / 100
+        mid = sum(all_pixes) / 10000
 
         return get_bits(mid, all_pixes)
 
 
 def get_grey(pixels) -> list:
     all_pixs = []
-    for i in range(10):
-        for j in range(10):
+    for i in range(100):
+        for j in range(100):
             r, g, b = pixels[i, j]
             bw = (r + g + b) // 3
             pixels[i, j] = bw, bw, bw
@@ -27,7 +27,7 @@ def get_grey(pixels) -> list:
 
 def get_bits(mid, all_pixes) -> str:
     bits = []
-    for i in range(100):
+    for i in range(10000):
         bits.append(str(int(all_pixes[i] > mid)))
     return ''.join(bits)
 
@@ -36,7 +36,7 @@ def percenting(im1: str, im2: str):
     hash1 = make_hash(im1)
     hash2 = make_hash(im2)
     cou = 0
-    for i in range(100):
+    for i in range(10000):
         if hash1[i] == hash2[i]:
             cou += 1
     return cou
