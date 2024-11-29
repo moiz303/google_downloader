@@ -22,6 +22,13 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Введите e - mail и пароль для входа в аккаунт</string>
    </property>
@@ -79,9 +86,15 @@
     <rect>
      <x>140</x>
      <y>240</y>
-     <width>431</width>
+     <width>441</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <italic>false</italic>
+    </font>
    </property>
    <property name="text">
     <string>Я не храню Ваши данные, они нужны только для входа в учётную запись</string>

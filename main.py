@@ -18,7 +18,7 @@ class Main(QMainWindow):
         # Создаём оболочку и подключаем кнопки
         uic.loadUi('main_window.ui', self)
         self.logo.setPixmap(QPixmap('logo.png'))
-        self.w1, self.w2 = DoPhotoBot(), ClearPhotos()
+        self.w1, self.w2, self.w3 = DoPhotoBot(), ClearPhotos(), About()
 
         # Если нажата кнопка "Загрузить архив", то переходим на страницу для бота
         self.gogle.clicked.connect(self.w1.show)
@@ -28,6 +28,16 @@ class Main(QMainWindow):
         self.clear.clicked.connect(self.w2.show)
         self.clear.clicked.connect(self.hide)
 
+        # Если нажата кнопка О проекте, то показыываем инфо
+        self.about_btn.clicked.connect(self.w3.show)
+        self.about_btn.clicked.connect(self.hide)
+
+
+class About(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('about.ui', self)
+        self.logo.setPixmap(QPixmap('logo.png'))
 
 
 class DoPhotoBot(QMainWindow):
@@ -54,46 +64,56 @@ class ClearPhotos(QMainWindow):
         self.confirm.clicked.connect(self.cleanning)
 
     def fast_clean(self, direct):
-        for i in os.listdir(direct):
-            if i.find('-изменённый'):
-                os.remove(os.path.abspath(i))
+        for file in os.listdir(direct):
+            if '-измененный' in file:
+                os.remove(os.path.abspath(file))
 
     def cleanning(self):
         full_path = self.path.text()
         albums = os.listdir(full_path)
-        # db_sess = db_session.create_session()  # Подключаемся к базе данных
+        db_sess = db_session.create_session()  # Подключаемся к базе данных
         counter = 0
         for i in albums:
             if i.startswith('Photos from'):
-                path = full_path + f'\\{i}'
-                os.chdir(path)  # Переходим в нужную директорию
-                a = os.listdir(path)
-                self.fast_clean(path)
-                while counter <= len(a) - 3:
-                    photo1, jason1 = a[counter], a[counter + 1]
-                    photo2, jason2 = a[counter + 2], a[counter + 3]
+                path = os.path.join(full_path, i)
 
-                    # Если объект - не фотография, то пропускаем его и его json
-                    if photo1[-4:] != '.jpg':
-                        counter += 2
+                os.chdir(path)  # Переходим в нужную директорию
+
+                self.fast_clean(path)  # Чистим директорию от изменённых фото
+
+                lstdir = sorted(os.listdir(path), key=lambda x: x[-4:])  # Формируем сортированный список файлов
+
+                photo2 = lstdir[counter + 1]
+
+                while photo2[-4:] != 'json':  # Пока не столкнёмся с парой jpg-json будем сравнивать соседние картинки
+                    photo1, jason1 = lstdir[counter], lstdir[counter] + '.json'
+                    photo2, jason2 = lstdir[counter + 1], lstdir[counter + 1] + '.json'
+
+                    # Если объект - не фотография, то пропускаем его
+                    if (photo1[-4:] != '.jpg') or (photo2[-4:] != '.jpg'):
+                        counter += 1
 
                     # Иначе сравниваем - если сходство более 88%, то удаляем фото и json
                     elif percenting(photo1, photo2) > 88:
-                        os.remove(os.path.abspath(photo1))
+                        try:
+                            os.remove(os.path.abspath(photo1))
+                            os.remove(os.path.abspath(jason1))
+                        except FileNotFoundError:
+                            pass
 
                     else:  # Если всё хорошо, то записываем в БДшку информацию про фотографию
-                        """with open(a[counter + 1], 'r', encoding='utf8') as file:
+                        """with open(lstdir[counter + 1], 'r', encoding='utf8') as file:
                             jason = json.load(file)
                             data = Data(
-                                description=jason["description"],
-                                date=jason["photoTakenTime"]["formatted"],
-                                url=jason["url"],
-                                device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
-                            )
+                                    description=jason["description"],
+                                    date=jason["photoTakenTime"]["formatted"],
+                                    url=jason["url"],
+                                    device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
+                                )
                             db_sess.add(data)
                             db_sess.commit()"""
                         counter += 2
-                    os.remove(os.path.abspath(jason1))
+                    lstdir = sorted(os.listdir(path))
 
 
 class Data(db_session.SqlAlchemyBase):
