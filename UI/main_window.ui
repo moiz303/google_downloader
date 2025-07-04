@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>854</width>
-    <height>509</height>
+    <width>942</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>92</y>
-      <width>421</width>
-      <height>31</height>
+      <x>0</x>
+      <y>110</y>
+      <width>941</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -37,7 +37,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Выберите.  что Вы хотите сделать</string>
+     <string>Выберите, что Вы хотите сделать</string>
     </property>
     <property name="textFormat">
      <enum>Qt::PlainText</enum>
@@ -52,10 +52,10 @@
    <widget class="QPushButton" name="gogle">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>160</y>
+      <x>260</x>
+      <y>200</y>
       <width>421</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -70,10 +70,10 @@
    <widget class="QPushButton" name="clear">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>240</y>
+      <x>260</x>
+      <y>280</y>
       <width>421</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -88,10 +88,10 @@
    <widget class="QLabel" name="logo">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>320</y>
-      <width>771</width>
-      <height>151</height>
+      <x>160</x>
+      <y>360</y>
+      <width>651</width>
+      <height>231</height>
      </rect>
     </property>
     <property name="text">
@@ -101,10 +101,10 @@
    <widget class="QPushButton" name="about_btn">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>111</width>
-      <height>31</height>
+      <x>30</x>
+      <y>30</y>
+      <width>141</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">

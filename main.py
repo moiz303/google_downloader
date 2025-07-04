@@ -1,5 +1,6 @@
 import photo_bot
-import db_session
+from data import db_session
+from data.Data import DataBase
 from choose import percenting
 
 import sys
@@ -16,8 +17,8 @@ class Main(QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
         # Создаём оболочку и подключаем кнопки
-        uic.loadUi('main_window.ui', self)
-        self.logo.setPixmap(QPixmap('logo.png'))
+        uic.loadUi('UI/main_window.ui', self)
+        self.logo.setPixmap(QPixmap('static/logo.png'))
         self.w1, self.w2, self.w3 = DoPhotoBot(), ClearPhotos(), About()
 
         # Если нажата кнопка "Загрузить архив", то переходим на страницу для бота
@@ -36,16 +37,16 @@ class Main(QMainWindow):
 class About(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('about.ui', self)
-        self.logo.setPixmap(QPixmap('logo.png'))
+        uic.loadUi('UI/about.ui', self)
+        self.logo.setPixmap(QPixmap('static/logo.png'))
 
 
 class DoPhotoBot(QMainWindow):
     def __init__(self):
         super().__init__()
         # Создаём оболочку и подключаем кнопки
-        uic.loadUi('registrate.ui', self)
-        self.logo.setPixmap(QPixmap('logo.png'))
+        uic.loadUi('UI/registrate.ui', self)
+        self.logo.setPixmap(QPixmap('static/logo.png'))
 
         self.confirm.clicked.connect(self.go_bot)
 
@@ -58,8 +59,8 @@ class ClearPhotos(QMainWindow):
     def __init__(self):
         super(ClearPhotos, self).__init__()
         # Создаём оболочку и подключаем кнопки
-        uic.loadUi('path_to_ZIP.ui', self)
-        self.logo.setPixmap(QPixmap('logo.png'))
+        uic.loadUi('UI/path_to_ZIP.ui', self)
+        self.logo.setPixmap(QPixmap('static/logo.png'))
 
         self.confirm.clicked.connect(self.cleanning)
 
@@ -93,8 +94,8 @@ class ClearPhotos(QMainWindow):
                     if (photo1[-4:] != '.jpg') or (photo2[-4:] != '.jpg'):
                         counter += 1
 
-                    # Иначе сравниваем - если сходство более 88%, то удаляем фото и json
-                    elif percenting(photo1, photo2) > 88:
+                    # Иначе сравниваем - если сходство более 95%, то удаляем фото и json
+                    elif percenting(photo1, photo2) > 95:
                         try:
                             os.remove(os.path.abspath(photo1))
                             os.remove(os.path.abspath(jason1))
@@ -102,28 +103,18 @@ class ClearPhotos(QMainWindow):
                             pass
 
                     else:  # Если всё хорошо, то записываем в БДшку информацию про фотографию
-                        """with open(lstdir[counter + 1], 'r', encoding='utf8') as file:
+                        with open(lstdir[counter + 1], 'r', encoding='utf8') as file:
                             jason = json.load(file)
-                            data = Data(
+                            data = DataBase(
                                     description=jason["description"],
                                     date=jason["photoTakenTime"]["formatted"],
                                     url=jason["url"],
                                     device=jason["googlePhotosOrigin"]["mobileUpload"]["deviceType"]
                                 )
                             db_sess.add(data)
-                            db_sess.commit()"""
+                            db_sess.commit()
                         counter += 2
                     lstdir = sorted(os.listdir(path))
-
-
-class Data(db_session.SqlAlchemyBase):
-    __tablename__ = 'Data'
-
-    id = sqlalchemy.Column(sqlalchemy.Integer, autoincrement=True, primary_key=True)
-    description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    date = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    url = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    device = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
 
 def except_hook(cls, exception, traceback):

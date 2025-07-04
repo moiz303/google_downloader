@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>735</width>
-    <height>505</height>
+    <width>934</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>90</y>
-     <width>421</width>
-     <height>31</height>
+     <x>10</x>
+     <y>130</y>
+     <width>921</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -40,9 +40,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>200</y>
-     <width>661</width>
-     <height>31</height>
+     <y>240</y>
+     <width>911</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -56,16 +56,16 @@
     <string>Проект создан в рамках школы 1580 учеником 10 класса Израйлит Михаилом</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="logo">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>310</y>
-     <width>651</width>
-     <height>121</height>
+     <x>140</x>
+     <y>360</y>
+     <width>681</width>
+     <height>211</height>
     </rect>
    </property>
    <property name="text">
